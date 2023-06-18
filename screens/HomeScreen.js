@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, FlatList,Platform } from 'react-native'
+import { View, Text, TouchableOpacity, Image, FlatList, Platform } from 'react-native'
 import React from 'react'
 import ScreenWrapper from '../components/screenWrapper'
 import { colors } from '../theme'
@@ -43,7 +43,7 @@ const items = [
     place: 'London',
     country: 'United Kingdom',
   },
-  
+
 ]
 
 export default function HomeScreen() {
@@ -64,22 +64,22 @@ export default function HomeScreen() {
       <View className='px-4 space-y-4'>
         <View className="flex-row justify-between items-center">
           <Text className={`${colors.heading} font-bold text-xl`} >Recent Trips</Text>
-          <TouchableOpacity className='p-2 px-3 bg-white border border-gray-200 rounded-full' onPress={()=>navigation.navigate('AddTrip') } >
+          <TouchableOpacity className='p-2 px-3 bg-white border border-gray-200 rounded-full' onPress={() => navigation.navigate('AddTrip')} >
             <Text className={colors.heading} >Add Trip</Text>
           </TouchableOpacity>
         </View>
-        <View style={{height:350}}>
+        <View style={{ height: 350 }}>
           <FlatList
             data={items}
             numColumns={2}
             keyExtractor={item => item.id}
-            // showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
             ListEmptyComponent={<EmptyList message={"You haven't recorded any trips yet"} />}
 
             renderItem={({ item }) => {
               return (
-                <TouchableOpacity className={`bg-white ${Platform.OS==='android'?'p-2':'p-3'} rounded-2xl mb-3 shadow-sm`}>
+                <TouchableOpacity className={`bg-white ${Platform.OS === 'android' ? 'p-2' : 'p-3'} rounded-2xl mb-3 shadow-sm`} onPress={() => navigation.navigate('TripExpenses',{...item})}  >
                   <View>
                     <Image source={randomImage()} className="w-36 h-36 mb-2 " />
                     <Text className={`${colors.heading} font-bold `} >{item.place}</Text>
