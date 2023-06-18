@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, Image, FlatList,Platform } from 'react-native'
 import React from 'react'
 import ScreenWrapper from '../components/screenWrapper'
 import { colors } from '../theme'
@@ -47,6 +47,7 @@ const items = [
 ]
 
 export default function HomeScreen() {
+  console.log(Platform.OS)
   const navigation = useNavigation();
   return (
     <ScreenWrapper className='flex-1'>
@@ -78,7 +79,7 @@ export default function HomeScreen() {
 
             renderItem={({ item }) => {
               return (
-                <TouchableOpacity className="bg-white p-3 rounded-2xl mb-3 shadow-sm" >
+                <TouchableOpacity className={`bg-white ${Platform.OS==='android'?'p-2':'p-3'} rounded-2xl mb-3 shadow-sm`}>
                   <View>
                     <Image source={randomImage()} className="w-36 h-36 mb-2 " />
                     <Text className={`${colors.heading} font-bold `} >{item.place}</Text>
