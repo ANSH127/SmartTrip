@@ -3,6 +3,8 @@ import React from 'react'
 import ScreenWrapper from '../components/screenWrapper'
 import { colors } from '../theme'
 import randomImage from '../assets/images/randomImage'
+import EmptyList from '../components/emptyList'
+import { useNavigation } from '@react-navigation/native'
 
 
 const items = [
@@ -45,6 +47,7 @@ const items = [
 ]
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
   return (
     <ScreenWrapper className='flex-1'>
       <View className="flex-row justify-between items-center p-4">
@@ -60,7 +63,7 @@ export default function HomeScreen() {
       <View className='px-4 space-y-4'>
         <View className="flex-row justify-between items-center">
           <Text className={`${colors.heading} font-bold text-xl`} >Recent Trips</Text>
-          <TouchableOpacity className='p-2 px-3 bg-white border border-gray-200 rounded-full' >
+          <TouchableOpacity className='p-2 px-3 bg-white border border-gray-200 rounded-full' onPress={()=>navigation.navigate('AddTrip') } >
             <Text className={colors.heading} >Add Trip</Text>
           </TouchableOpacity>
         </View>
@@ -71,10 +74,11 @@ export default function HomeScreen() {
             keyExtractor={item => item.id}
             // showsVerticalScrollIndicator={false}
             columnWrapperStyle={{ justifyContent: 'space-between' }}
+            ListEmptyComponent={<EmptyList message={"You haven't recorded any trips yet"} />}
 
             renderItem={({ item }) => {
               return (
-                <TouchableOpacity className="bg-white p-2 rounded-2xl mb-3 shadow-sm" >
+                <TouchableOpacity className="bg-white p-3 rounded-2xl mb-3 shadow-sm" >
                   <View>
                     <Image source={randomImage()} className="w-36 h-36 mb-2 " />
                     <Text className={`${colors.heading} font-bold `} >{item.place}</Text>
