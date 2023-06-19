@@ -8,13 +8,27 @@ import AddExpenseScreen from '../screens/AddExpenseScreen';
 import WelcomScreen from '../screens/WelcomScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { onAuthStateChanged } from 'firebase/auth';
+import { setUser } from '../redux/slices/user';
+import { auth } from '../config/firebase';
+
 
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
   const user = useSelector(state => state.user.user);
+
+  const dispach = useDispatch();
+
+  onAuthStateChanged(auth, (user) => {
+    console.log('user', user)
+    dispach(setUser(user))
+    
+  })
+
+
 
   if (user) {
     return (
