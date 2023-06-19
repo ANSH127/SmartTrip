@@ -5,18 +5,36 @@ import { colors } from '../theme'
 import BackButton from '../components/backButton'
 import { useNavigation } from '@react-navigation/native'
 import { categories } from '../constants/index'
+import { addDoc } from 'firebase/firestore'
+import { expensesRef } from '../config/firebase'
+import Loading from '../components/loading'
 
-export default function AddExpenseScreen() {
+export default function AddExpenseScreen(props) {
+    const { id } = props.route.params;
+    // console.log(id);
+
     const [title, setTitle] = React.useState('')
     const [amount, setAmount] = React.useState('')
     const [category, setCategory] = React.useState('')
+    const [loading, setLoading] = React.useState(false)
 
     const navigation = useNavigation();
 
-    const handleAddExpense = () => {
+    const handleAddExpense = async () => {
         if (title && amount && category) {
             // console.log(place, country)
-            navigation.goBack();
+            // navigation.goBack();
+            setLoading(true);
+            let doc = await addDoc(expensesRef, {
+                title,
+                amount,
+                category,
+                tripId: id
+            });
+            setLoading(false);
+            if (doc && doc.id) {
+                navigation.goBack();
+            }
         }
         else {
             Alert.alert('Please fill all the fields')
@@ -74,9 +92,15 @@ export default function AddExpenseScreen() {
                     </View>
 
                     <View>
-                        <TouchableOpacity style={{ backgroundColor: colors.button }} className=" my-6 rounded-full p-3 shadow-sm mx-2 " onPress={handleAddExpense} >
-                            <Text className="text-center text-white text-lg font-bold" >Add Expense</Text>
-                        </TouchableOpacity>
+                        {
+                            loading ? (<Loading />) : (
+
+
+                                <TouchableOpacity style={{ backgroundColor: colors.button }} className=" my-6 rounded-full p-3 shadow-sm mx-2 " onPress={handleAddExpense} >
+                                    <Text className="text-center text-white text-lg font-bold" >Add Expense</Text>
+                                </TouchableOpacity>
+                            )
+                        }
                     </View>
                 </ScrollView>
 
