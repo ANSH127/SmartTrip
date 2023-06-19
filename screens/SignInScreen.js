@@ -27,6 +27,7 @@ export default function SignInScreen() {
 
                 dispatch(setUserLoading(true));
                 await signInWithEmailAndPassword(auth, email, password);
+                
                 dispatch(setUserLoading(false));
 
             }

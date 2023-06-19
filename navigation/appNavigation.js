@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
 import { setUser } from '../redux/slices/user';
 import { auth } from '../config/firebase';
+import { Alert } from 'react-native';
 
 
 
@@ -23,8 +24,16 @@ export default function AppNavigation() {
   const dispach = useDispatch();
 
   onAuthStateChanged(auth, (user) => {
-    console.log('user', user)
-    dispach(setUser(user))
+    // console.log('user', user)
+    if(user?.emailVerified){
+
+      dispach(setUser(user))
+    }
+    else{
+      user?Alert.alert('Please verify your email'):null;
+      dispach(setUser(null))
+      
+    }
     
   })
 

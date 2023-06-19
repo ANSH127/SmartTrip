@@ -4,7 +4,7 @@ import ScreenWrapper from '../components/screenWrapper'
 import { colors } from '../theme'
 import BackButton from '../components/backButton'
 import { useNavigation } from '@react-navigation/native'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth'
 import { auth } from '../config/firebase'
 
 import Loading from '../components/loading'
@@ -27,18 +27,23 @@ export default function SignUnScreen() {
             // console.log(email, password)
             // navigation.goBack();
             // navigation.navigate('Home');
+
             try {
 
                 dispatch(setUserLoading(true));
                 await createUserWithEmailAndPassword(auth, email, password);
+                await sendEmailVerification(auth.currentUser);
 
                 dispatch(setUserLoading(false));
+                navigation.goBack();
 
             }
             catch (e) {
                 dispatch(setUserLoading(false));
                 Alert.alert('Error', e.message)
             }
+            setEmail('');
+            setPassword('');
         }
         else {
             Alert.alert('Please fill all the fields')
