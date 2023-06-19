@@ -37,6 +37,7 @@ export default function TripExpensesScreen(props) {
     const {id,place,country}=props.route.params;
     const navigation = useNavigation();
     const [expenses,setExpenses]=React.useState([]);
+    const [amount,setAmount]=React.useState(0);
     const isFocused=useIsFocused();
 
 
@@ -44,12 +45,16 @@ export default function TripExpensesScreen(props) {
         const q=query(expensesRef,where("tripId","==",id));
         const querySnapshot=await getDocs(q);
         let data=[]
+        let amt=0;
         querySnapshot.forEach(doc => {
 
             data.push({...doc.data(),id:doc.id})
+            amt+=parseInt((doc.data().amount));
             
           });
+        // console.log(data);
         setExpenses(data);
+        setAmount(amt);
 
     }
     useEffect(()=>{
@@ -84,7 +89,12 @@ export default function TripExpensesScreen(props) {
                             <Text className={colors.heading} >Add Expense</Text>
                         </TouchableOpacity>
                     </View>
-                    <View style={{ height: 350 }}>
+                    <View className='flex-row justify-center items-center' >
+                    <Text className={`p-2 px-3 bg-white border border-gray-200 font-bold rounded-full ${colors.heading}`} >Total: {amount}</Text>
+
+
+                    </View>
+                    <View style={{ height: 220 }}>
                         <FlatList
                             data={expenses}
                             keyExtractor={item => item.id}

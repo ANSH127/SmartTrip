@@ -51,7 +51,7 @@ const items = [
 ]
 
 export default function HomeScreen() {
-  console.log(Platform.OS)
+  // console.log(Platform.OS)
   const navigation = useNavigation();
 
   const {user}=useSelector(state=>state.user);
