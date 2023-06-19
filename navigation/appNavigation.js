@@ -32,7 +32,7 @@ export default function AppNavigation() {
     else{
       user?Alert.alert('Please verify your email'):null;
       dispach(setUser(null))
-      
+
     }
     
   })
