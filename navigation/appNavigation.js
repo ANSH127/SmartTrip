@@ -8,23 +8,41 @@ import AddExpenseScreen from '../screens/AddExpenseScreen';
 import WelcomScreen from '../screens/WelcomScreen';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
+import { useSelector } from 'react-redux';
 
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigation() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName='Welcom'  >
-        <Stack.Screen options={{ headerShown: false}} name="Welcom" component={WelcomScreen} />
-        <Stack.Screen options={{ headerShown: false}} name="Home" component={HomeScreen} />
-        <Stack.Screen options={{ headerShown: false,presentation:'modal'}} name="SignIn" component={SignInScreen} />
-        <Stack.Screen options={{ headerShown: false,presentation:'modal'}} name="SignUp" component={SignUpScreen} />
-        <Stack.Screen options={{ headerShown: false}} name="AddTrip" component={AddTripScreen} />
-        <Stack.Screen options={{ headerShown: false}} name="TripExpenses" component={TripExpensesScreen} />
-        <Stack.Screen options={{ headerShown: false}} name="AddTripExpenses" component={AddExpenseScreen} />
+  const user = useSelector(state => state.user.user);
 
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  if (user) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Home'  >
+          <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="AddTrip" component={AddTripScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="TripExpenses" component={TripExpensesScreen} />
+          <Stack.Screen options={{ headerShown: false }} name="AddTripExpenses" component={AddExpenseScreen} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+
+  }
+  else {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName='Welcom'  >
+          <Stack.Screen options={{ headerShown: false }} name="Welcom" component={WelcomScreen} />
+          <Stack.Screen options={{ headerShown: false, presentation: 'modal' }} name="SignIn" component={SignInScreen} />
+          <Stack.Screen options={{ headerShown: false, presentation: 'modal' }} name="SignUp" component={SignUpScreen} />
+
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+
+  }
+
+
 }
