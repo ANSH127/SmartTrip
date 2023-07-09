@@ -1,7 +1,7 @@
 
 # SmartTrip
 
-This is a SmartTrip
+A mobile application that helps you track your expenses on a trip.
 
 ## Run Locally
 
