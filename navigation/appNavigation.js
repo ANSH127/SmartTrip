@@ -13,6 +13,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { setUser } from '../redux/slices/user';
 import { auth } from '../config/firebase';
 import { Alert } from 'react-native';
+import { useEffect } from 'react';
 
 
 
@@ -36,6 +37,11 @@ export default function AppNavigation() {
     }
     
   })
+
+  useEffect(() => {
+    console.log('user', user)
+  }, [user])
+
 
 
 

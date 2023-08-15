@@ -4,7 +4,7 @@ import ScreenWrapper from '../components/screenWrapper'
 import { colors } from '../theme'
 import BackButton from '../components/backButton'
 import { useNavigation } from '@react-navigation/native'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import {signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../config/firebase'
 import Loading from '../components/loading'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,7 +26,11 @@ export default function SignInScreen() {
             try {
 
                 dispatch(setUserLoading(true));
+
+                // await setPersistence(auth, 'SESSION');
                 await signInWithEmailAndPassword(auth, email, password);
+                
+
                 
                 dispatch(setUserLoading(false));
 

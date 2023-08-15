@@ -29,7 +29,8 @@ export default function AddExpenseScreen(props) {
                 title,
                 amount,
                 category,
-                tripId: id
+                tripId: id,
+                createdAt: new Date().toISOString()
             });
             setLoading(false);
             if (doc && doc.id) {
